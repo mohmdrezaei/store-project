@@ -10,20 +10,29 @@ import { FaListUl } from "react-icons/fa";
 function ProductsPage() {
   const products = useProducts();
 
-  const [displayed , setDisplayed] = useState([])
+  const [displayed, setDisplayed] = useState([]);
   const [search, setSearch] = useState("");
+  const [query, setQuery] = useState({});
 
-  useEffect(()=>{
-    setDisplayed(products)
-  },[products])
+  useEffect(() => {
+    setDisplayed(products);
+  }, [products]);
 
-  const categoryHandler = (e)=>{
-    const {tagName} = e.target
-    const category = e.target.innerText.toLowerCase()
-    if(tagName !== "LI") return;
-    console.log(category)
+  useEffect(() => {
+   console.log(query)
+  }, [query]);
 
-  }
+
+  const categoryHandler = (e) => {
+    const { tagName } = e.target;
+    const category = e.target.innerText.toLowerCase();
+    if (tagName !== "LI") return;
+    setQuery((query) => ({ ...query, category }));
+  };
+
+  const searchHandler = () => {
+    setQuery((query) => ({ ...query, search }));
+  };
   return (
     <>
       <div>
@@ -33,7 +42,7 @@ function ProductsPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value.toLowerCase().trim())}
         />
-        <button>
+        <button onClick={searchHandler}>
           <ImSearch />
         </button>
       </div>
@@ -49,13 +58,13 @@ function ProductsPage() {
             <FaListUl />
             <p>Categories</p>
           </div>
-        <ul onClick={categoryHandler}>
-          <li>All</li>
-          <li>Electronics</li>
-          <li>Jewelery</li>
-          <li>Men's Clothing</li>
-          <li>Women's Clothing</li>
-        </ul>
+          <ul onClick={categoryHandler}>
+            <li>All</li>
+            <li>Electronics</li>
+            <li>Jewelery</li>
+            <li>Men's Clothing</li>
+            <li>Women's Clothing</li>
+          </ul>
         </div>
       </div>
     </>
