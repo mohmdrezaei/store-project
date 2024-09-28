@@ -6,6 +6,7 @@ import { useProducts } from "../context/ProductContext";
 
 import styles from "./ProductsPage.module.css";
 import { FaListUl } from "react-icons/fa";
+import { filterProducts, searchProducts } from "../helpers/helper";
 
 function ProductsPage() {
   const products = useProducts();
@@ -19,7 +20,10 @@ function ProductsPage() {
   }, [products]);
 
   useEffect(() => {
-   console.log(query)
+   let finalProducts = searchProducts(products , query.search)
+   finalProducts =  filterProducts(finalProducts , query.category)
+   setDisplayed(finalProducts)
+
   }, [query]);
 
 
