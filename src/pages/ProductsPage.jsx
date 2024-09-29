@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { ImSearch } from "react-icons/im";
+
 import Card from "../components/card/Card";
 import Loader from "../components/loader/Loader";
 import { useProducts } from "../context/ProductContext";
 
 import styles from "./ProductsPage.module.css";
-import { FaListUl } from "react-icons/fa";
+
 import {
-  createQueryObject,
   filterProducts,
   getInitialQuery,
   searchProducts,
 } from "../helpers/helper";
 import { useSearchParams } from "react-router-dom";
+import SearchBox from "../components/searchBox/SearchBox";
+import Sidebar from "../components/sidebar/Sidebar";
 
 function ProductsPage() {
   const products = useProducts();
@@ -24,40 +25,20 @@ function ProductsPage() {
 
   useEffect(() => {
     setDisplayed(products);
-    setQuery(getInitialQuery(searchParams))
+    setQuery(getInitialQuery(searchParams));
   }, [products]);
 
   useEffect(() => {
     setSearchParams(query);
-    setSearch(query.search || "")
+    setSearch(query.search || "");
     let finalProducts = searchProducts(products, query.search);
     finalProducts = filterProducts(finalProducts, query.category);
     setDisplayed(finalProducts);
   }, [query]);
 
-  const categoryHandler = (e) => {
-    const { tagName } = e.target;
-    const category = e.target.innerText.toLowerCase();
-    if (tagName !== "LI") return;
-    setQuery((query) => createQueryObject(query, { category }));
-  };
-
-  const searchHandler = () => {
-    setQuery((query) => createQueryObject(query, { search }));
-  };
   return (
     <>
-      <div>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value.toLowerCase().trim())}
-        />
-        <button onClick={searchHandler}>
-          <ImSearch />
-        </button>
-      </div>
+      <SearchBox search={search} setSearch={setSearch} setQuery={setQuery} />
       <div className={styles.container}>
         <div className={styles.products}>
           {!displayed.length && <Loader />}
@@ -65,19 +46,7 @@ function ProductsPage() {
             <Card key={product.id} data={product} />
           ))}
         </div>
-        <div>
-          <div>
-            <FaListUl />
-            <p>Categories</p>
-          </div>
-          <ul onClick={categoryHandler}>
-            <li>All</li>
-            <li>Electronics</li>
-            <li>Jewelery</li>
-            <li>Men's Clothing</li>
-            <li>Women's Clothing</li>
-          </ul>
-        </div>
+        <Sidebar setQuery={setQuery} />
       </div>
     </>
   );
