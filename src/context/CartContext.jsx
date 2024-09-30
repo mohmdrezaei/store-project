@@ -29,7 +29,7 @@ const reducer = (state, action) => {
         selectedItems: [...newSelectedItems],
         ...sumProducts(newSelectedItems),
       };
-    case "INCRESE":
+    case "INCREASE":
       const increaseIndex = state.selectedItems.findIndex(
         (item) => item.id === action.payload.id
       );
