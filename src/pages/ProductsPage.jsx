@@ -14,8 +14,10 @@ import {
 import { useSearchParams } from "react-router-dom";
 import SearchBox from "../components/searchBox/SearchBox";
 import Sidebar from "../components/sidebar/Sidebar";
+import { useTitle } from "../hooks/useTitle";
 
 function ProductsPage() {
+  useTitle("Store | Home")
   const products = useProducts();
 
   const [displayed, setDisplayed] = useState([]);

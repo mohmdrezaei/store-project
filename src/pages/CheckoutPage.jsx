@@ -1,10 +1,12 @@
 import BasketCard from "../components/basketCard/BasketCard";
 import BasketSidbar from "../components/basketCard/BasketSidbar";
 import { useCart } from "../context/CartContext";
+import { useTitle } from "../hooks/useTitle";
 
 import styles from "./CheckoutPage.module.css"
 
 function CheckoutPage() {
+  useTitle("Store | Basket Cart")
   const [state, dispatch] = useCart();
   const clickHandler = (type, payload) => dispatch({ type, payload });
   if (!state.itemsCounter) {

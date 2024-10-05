@@ -6,8 +6,10 @@ import { IoMdPricetag } from "react-icons/io";
 import { FaArrowLeft } from "react-icons/fa";
 
 import styles from "./DetailsPage.module.css"
+import { useTitle } from "../hooks/useTitle";
 
 function DetailsPage() {
+  useTitle("Store | Details")
   const { id } = useParams();
   const productDetails = useProductDetails(+id);
   console.log(productDetails);
